@@ -11,11 +11,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = "*")
 public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("user")
+    @GetMapping("getUsers")
     public List<AllianzUser> getUserList() {
         return userService.getUserList();
 
