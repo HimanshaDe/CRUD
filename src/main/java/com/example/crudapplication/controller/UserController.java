@@ -3,7 +3,7 @@ package com.example.crudapplication.controller;
 import com.example.crudapplication.model.AllianzUser;
 import com.example.crudapplication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,9 +28,20 @@ public class UserController {
          userService.saveUser(allianzUser);
     }
 
+
+    @GetMapping("/getuser/{id}")
+    public ResponseEntity<AllianzUser> getUserById(@PathVariable Long id) {
+        AllianzUser allianzUser = userService.getUserById(id);
+        System.out.println(allianzUser);
+        return ResponseEntity.ok(allianzUser);
+        
+    }
     @PutMapping("/updateusers/{id}")
-    public void updateUser(@PathVariable("id") Long id,@RequestBody AllianzUser allianzUser){
-        userService.updateUser(id,allianzUser);
+    public ResponseEntity<AllianzUser> updateUser(@PathVariable("id") Long id, @RequestBody AllianzUser allianzUser){
+        allianzUser.setId(id);
+        AllianzUser allianzUser1 = userService.updateUser(allianzUser);
+
+        return ResponseEntity.ok(allianzUser1);
     }
 
     @DeleteMapping("deleteuser/{id}")

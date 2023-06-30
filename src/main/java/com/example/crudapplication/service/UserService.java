@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -26,9 +27,9 @@ public class UserService {
         return userrepo.save(allianzUser);
     }
 
-    public List<AllianzUser> updateUser(Long id, AllianzUser allianzUser) {
+    public AllianzUser updateUser( AllianzUser allianzUser) {
 
-        AllianzUser allianzUser1 = userrepo.findById(id).orElseThrow();
+        AllianzUser allianzUser1 = userrepo.findById(allianzUser.getId()).orElseThrow();
                 allianzUser1.setFirstname(allianzUser.getFirstname());
                 allianzUser1.setLastname(allianzUser.getLastname());
                 allianzUser1.setEmail_id(allianzUser.getEmail_id());
@@ -39,6 +40,13 @@ public class UserService {
     public void deleteUser(Long id) {
         userrepo.deleteById(id);
     }
+
+    public AllianzUser getUserById(Long id) {
+        return userrepo.findById(id)
+                .orElseThrow(()->new NoSuchElementException("User not found"));
+
+    }
+
 
 //    public ResponseEntity<?> saveUser(@RequestBody AllianzUser allianzUser){
 //        return new ResponseEntity<>(userrepo.save(allianzUser), HttpStatus.OK);
